@@ -14,26 +14,32 @@ public class TabSimbolos {
 	private TabSimbolos() {
 		tab = new HashMap<String, Token>();
 
-		tab.put("true", new Token(TokenType.LOGIC_VAL, "true"));
-		tab.put("false", new Token(TokenType.LOGIC_VAL, "false"));
-		tab.put("not", new Token(TokenType.LOGIC_OP, "not"));
-		tab.put("and", new Token(TokenType.LOGIC_OP, "and"));
-		tab.put("or", new Token(TokenType.LOGIC_OP, "or"));
+		tab.put("true", new Token(TokenType.BOOLEAN, "true"));
+		tab.put("false", new Token(TokenType.BOOLEAN, "false"));
+		tab.put("not", new Token(TokenType.OPLOG, "not"));
+		tab.put("and", new Token(TokenType.OPLOG, "and"));
+		tab.put("or", new Token(TokenType.OPLOG, "or"));
 		tab.put("bool", new Token(TokenType.TYPE, "bool"));
 		tab.put("text", new Token(TokenType.TYPE, "text"));
 		tab.put("int", new Token(TokenType.TYPE, "int"));
 		tab.put("float", new Token(TokenType.TYPE, "float"));
-		tab.put("program", new Token(TokenType.PROGRAM, "program"));
+		tab.put("PROGRAM", new Token(TokenType.PROGRAM, "PROGRAM"));
 		tab.put("end_prog", new Token(TokenType.END_PROG, "end_prog"));
-		tab.put("begin", new Token(TokenType.BEGIN, "begin"));
-		tab.put("end", new Token(TokenType.END, "end"));
+		tab.put("BEGIN", new Token(TokenType.BEGIN, "BEGIN"));
+		tab.put("END", new Token(TokenType.END, "END"));
 		tab.put("if", new Token(TokenType.IF, "if"));
 		tab.put("then", new Token(TokenType.THEN, "then"));
 		tab.put("else", new Token(TokenType.ELSE, "else"));
 		tab.put("for", new Token(TokenType.FOR, "for"));
-		tab.put("while", new Token(TokenType.WHILE, "while"));
+		tab.put("WHILE", new Token(TokenType.WHILE, "WHILE"));
 		tab.put("declare", new Token(TokenType.DECLARE, "declare"));
 		tab.put("to", new Token(TokenType.TO, "to"));
+		tab.put("INTEGER", new Token(TokenType.INTEGER, "INTEGER"));
+		tab.put("DO", new Token(TokenType.DO, "DO"));
+		tab.put("READ", new Token(TokenType.READ, "READ"));
+		tab.put("VAR", new Token(TokenType.VAR, "VAR"));
+		tab.put("WRITE", new Token(TokenType.WRITE, "WRITE"));
+		
 	}
 	
 	public static TabSimbolos getInstance() {

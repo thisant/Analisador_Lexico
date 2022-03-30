@@ -10,21 +10,17 @@ public class Compilador {
 
 	public static void main(String[] args) {
 
-		if(args.length < 1) {
-			System.out.println("Informe o nome do arquivo a ser compilado");
-			System.out.println("USAGE: java Compilador <nome do arquivo de entrada>");
-			return;
-		}
-		//String filename = args[0];
-		String filename = "/compiler/file.txt";
+		//String filename = "src/file.txt";
+		
+		String filename = "src/GramME.txt";
 		Sintatico sintatico;
-		Lexico lexico;
+		
 		try {
 			sintatico = new Sintatico(filename);
 			sintatico.processar();
 		} catch (IOException e) {
-			System.out.println("Arquivo n√£o encontrado!");
-			System.out.println("USAGE: java Compilador <nome do arquivo de entrada>");
+			System.out.println("Arquivo n„o encontrado!");
+			System.out.println(e.getMessage());
 		}
 	}
 }

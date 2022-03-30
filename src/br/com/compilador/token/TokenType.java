@@ -4,17 +4,17 @@ public enum TokenType {
 	EOF(0), 		// Fim do arquivo
 	NUM_INT(1), 	// 123,48, 3E+10
 	NUM_FLOAT(2), 	// 4.8, 3.10E+10
-	LITERAL(3), 	// “Thiago”, “Santana”
+	LITERAL(3), 	// "Thiago", "Santana"
 	ID(4), 			// val, _salario, i__
 	RELOP(5), 		// $df, $gt, $le
-	ARIT_AS(6), 	// +, -
-	ARIT_MD(7), 	// *, /
-	ASSIGN(8), 		// <-
-	TERM(9), 		// ;
-	L_PAR(10), 		// (
-	R_PAR(11), 		// )
-	LOGIC_VAL(12), 	// true, false
-	LOGIC_OP(13), 	// and, not, or
+	OPAD(6), 		// +, -
+	OPMULT(7), 		// *, /
+	ATRIB(8), 		// <-
+	PVIG(9), 		// ;
+	ABPAR(10), 		// (
+	FPAR(11), 		// )
+	BOOLEAN(12), 	// true, false
+	OPLOG(13), 		// and, not, or
 	TYPE(14), 		// bool, text, int
 	PROGRAM(15), 	// program
 	END_PROG(16), 	// end_prog
@@ -26,7 +26,14 @@ public enum TokenType {
 	FOR(22), 		// for
 	WHILE(23), 		// while
 	DECLARE(24), 	// declare 
-	TO(25); 		// to
+	TO(25), 		// to
+	INTEGER(26),	// INTEGER
+	DO(27),			// Do 
+	READ(28),		// READ 
+	VAR(29),		// VAR
+	WRITE(30),		// WRITE
+	OPREL(31),		// <, <=, >, =>, ==, <>
+	VIG(32);		// ,
 	
 	private int codToken;
 

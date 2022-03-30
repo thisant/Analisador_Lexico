@@ -42,21 +42,26 @@ public class Lexico {
 
 				switch (caracter) {
 				case '+':
+					token = new Token(TokenType.OPAD, lexema.toString(), tk_lin, tk_col);
+					break;
 				case '-':
-					token = new Token(TokenType.ARIT_AS, lexema.toString(), tk_lin, tk_col);
+					token = new Token(TokenType.OPAD, lexema.toString(), tk_lin, tk_col);
 					break;
 				case '*':
 				case '/':
-					token = new Token(TokenType.ARIT_MD, lexema.toString(), tk_lin, tk_col);
+					token = new Token(TokenType.OPMULT, lexema.toString(), tk_lin, tk_col);
 					break;
 				case ';':
-					token = new Token(TokenType.TERM, lexema.toString(), tk_lin, tk_col);
+					token = new Token(TokenType.PVIG, lexema.toString(), tk_lin, tk_col);
+					break;
+				case ',':
+					token = new Token(TokenType.VIG, lexema.toString(), tk_lin, tk_col);
 					break;
 				case '(':
-					token = new Token(TokenType.L_PAR, lexema.toString(), tk_lin, tk_col);
+					token = new Token(TokenType.ABPAR, lexema.toString(), tk_lin, tk_col);
 					break;
 				case ')':
-					token = new Token(TokenType.R_PAR, lexema.toString(), tk_lin, tk_col);
+					token = new Token(TokenType.FPAR, lexema.toString(), tk_lin, tk_col);
 					break;
 				case '{':
 					processaComentario();
@@ -67,7 +72,7 @@ public class Lexico {
 				case '$':
 					token = processaRelop();
 					break;
-				case '<':
+				case ':':
 					token = processaAssign();
 					break;
 				default:
@@ -221,13 +226,13 @@ public class Lexico {
 
 	private Token processaAssign() throws IOException {
 		char c = getNextChar();
-		if (c != '-') {
+		if (c != '=') {
 			// Registra Erro Léxico
-			ErrorHandler.getInstance().addCompilerError(ErrorType.LEXICO, lexema.toString(), "Operador inválido",
+			ErrorHandler.getInstance().addCompilerError(ErrorType.LEXICO, lexema.toString(), "Operador inv�lido",
 					tk_lin, tk_col);
 			return null;
 		}
-		return new Token(TokenType.ASSIGN, lexema.toString(), tk_lin, tk_col);
+		return new Token(TokenType.ATRIB, lexema.toString(), tk_lin, tk_col);
 	}
 
 	private Token processaNum() throws IOException {
