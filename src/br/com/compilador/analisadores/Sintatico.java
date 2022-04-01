@@ -9,7 +9,6 @@ import br.com.compilador.utils.ErrorHandler;
 
 public class Sintatico
 {
-
 	private Lexico lexico;
 	private Token token = null;
 
@@ -20,14 +19,15 @@ public class Sintatico
 
 	public void processar()
 	{
-		// TODO: Código de teste para exercitar o Analisador Léxico
 		System.out.println("------------------------------------------------");
 		System.out.println("( X , Y )|   Token    ||          Lexema       |");
 		System.out.println("------------------------------------------------"); 
+		
 		do  { 
 			token = lexico.nextToken(); 
 			token.print(); 
-		} while (token.getTokenType() != TokenType.EOF);
+		} while (token.getTokenType() != TokenType.FIM);
+		
 		System.out.println("------------------------------------------------");
 
 		TabSimbolos.getInstance().printReport(); 

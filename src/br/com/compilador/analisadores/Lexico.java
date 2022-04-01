@@ -25,9 +25,9 @@ public class Lexico {
 		Token token = null;
 
 		try {
-			// Trata entrada até encontrar um token
+			// tratar entrada
 			while (token == null) {
-				// Remove espaços em branco no início do reconhecimento
+				// remove espa�os em branco
 				do {
 					caracter = fileLoader.getNextChar();
 				} while (Character.isWhitespace(caracter));
@@ -48,11 +48,23 @@ public class Lexico {
 					token = new Token(TokenType.OPAD, lexema.toString(), tk_lin, tk_col);
 					break;
 				case '*':
+					token = new Token(TokenType.OPMULT, lexema.toString(), tk_lin, tk_col);
+					break;
 				case '/':
 					token = new Token(TokenType.OPMULT, lexema.toString(), tk_lin, tk_col);
 					break;
 				case ';':
 					token = new Token(TokenType.PVIG, lexema.toString(), tk_lin, tk_col);
+					break;
+				case '<':
+					token = new Token(TokenType.OPREL, lexema.toString(), tk_lin, tk_col);
+					processaOperadorLogicoMenorQue();
+					break;
+				case '>':
+					token = new Token(TokenType.OPREL, lexema.toString(), tk_lin, tk_col);
+					break;
+				case '=':
+					processaOperadorLogicoIgual();
 					break;
 				case ',':
 					token = new Token(TokenType.VIG, lexema.toString(), tk_lin, tk_col);
@@ -67,13 +79,16 @@ public class Lexico {
 					processaComentario();
 					break;
 				case '"':
-					token = processaLiteral();
+					token = processaString();
 					break;
 				case '$':
 					token = processaRelop();
 					break;
 				case ':':
 					token = processaAssign();
+					break;
+				case '.':
+					token = new Token(TokenType.PONTO, lexema.toString(), tk_lin, tk_col);
 					break;
 				default:
 					if (Character.isLetter(caracter) || caracter == '_') {
@@ -85,23 +100,19 @@ public class Lexico {
 						break;
 					}
 
-					// Registra erro (Léxico)
+					// Registra erro 
 					ErrorHandler.getInstance().addCompilerError(ErrorType.LEXICO, lexema.toString(),
-							"Caracter inválido", tk_lin, tk_col);
+							"Caracter inv�lido", tk_lin, tk_col);
 				}
 			}
 
 		} catch (EOFException eof) {
-			// Cada método deve tratar a possibilidade de um fim de arquivo apropriadamente
-			// Se o fim de arquivo ocorre no início do processamento do token, então, isso
-			// significa
-			// que devemos encerrar retornando um 'Token EOF'
-			token = new Token(TokenType.EOF);
+			token = new Token(TokenType.FIM);
 		} catch (IOException io) {
 			// Registra erro (Processamento)
 			ErrorHandler.getInstance().addCompilerError(ErrorType.PROCESSAMENTO, "", "Erro ao acessar o arquivo",
 					tk_lin, tk_col);
-			token = new Token(TokenType.EOF, "Erro de processamento");
+			token = new Token(TokenType.FIM, "Erro de processamento");
 		}
 		return token;
 	}
@@ -117,16 +128,14 @@ public class Lexico {
 		lexema.deleteCharAt(lexema.length() - 1);
 	}
 
-	/**
-	 * metodo responsavel por ignorar o comentario no codigo
-	 */
+	
 	private void processaComentario() throws IOException {
 		try {
 			char c = getNextChar();
 			if (c != '#') {
 				// Registra erro, reseta lexema e reinicia
 				ErrorHandler.getInstance().addCompilerError(ErrorType.LEXICO, lexema.toString(),
-						"Comentário mal formatado", tk_lin, tk_col);
+						"Coment�rio mal formatado", tk_lin, tk_col);
 			}
 
 			do {
@@ -136,33 +145,33 @@ public class Lexico {
 				c = getNextChar();
 			} while (c != '}');
 		} catch (EOFException e) {
-			// Gera Erro, pois se um EOF ocorre, significa que o comentário não foi fechado
+			// Gera Erro, pois se um FIM ocorre, significa que o coment�rio n�o foi fechado
 			ErrorHandler.getInstance().addCompilerError(ErrorType.LEXICO, lexema.toString(),
-					"Comentário não finalizado.", tk_lin, tk_col);
+					"Coment�rio n�o finalizado.", tk_lin, tk_col);
 			fileLoader.resetLastChar();
 		}
 	}
 
-	private Token processaLiteral() throws IOException {
+	private Token processaString() throws IOException {
 		char c = getNextChar();
 		try {
 			while (c != '"' && c != '\n') {
 				c = getNextChar();
 			}
 		} catch (EOFException eof) {
-			// Adiciona espaço para tornar o tratamento homogêneo
+			// adiciona espa�o para tratamento
 			lexema.append(" ");
 		}
 
 		if (c != '"') {
 			resetLastChar();
-			// Registra Erro Léxico
-			ErrorHandler.getInstance().addCompilerError(ErrorType.LEXICO, lexema.toString(), "Literal não finalizado",
+			// Registra Erro
+			ErrorHandler.getInstance().addCompilerError(ErrorType.LEXICO, lexema.toString(), "Literal n�o finalizado",
 					tk_lin, tk_col);
 			return null;
 		}
 
-		return new Token(TokenType.LITERAL, lexema.toString(), tk_lin, tk_col);
+		return new Token(TokenType.STRING, lexema.toString(), tk_lin, tk_col);
 	}
 
 	private Token processaRelop() throws IOException {
@@ -227,68 +236,46 @@ public class Lexico {
 	private Token processaAssign() throws IOException {
 		char c = getNextChar();
 		if (c != '=') {
-			// Registra Erro Léxico
+			// Registra Erro
 			ErrorHandler.getInstance().addCompilerError(ErrorType.LEXICO, lexema.toString(), "Operador inv�lido",
 					tk_lin, tk_col);
 			return null;
 		}
 		return new Token(TokenType.ATRIB, lexema.toString(), tk_lin, tk_col);
 	}
+	
+	private Token processaOperadorLogicoIgual() throws IOException {
+		char c = getNextChar();
+		if (c != '=') {
+			ErrorHandler.getInstance().addCompilerError(ErrorType.LEXICO, lexema.toString(), "Operador inv�lido", tk_lin, tk_col);
+			return null;
+		}
+		
+		return new Token(TokenType.ATRIB, lexema.toString(), tk_lin, tk_col);
+	}
+	
+	private Token processaOperadorLogicoMenorQue() throws IOException {
+		char c = getNextChar();
+		
+		if (c == '=') {
+			return new Token(TokenType.ATRIB, lexema.toString(), tk_lin, tk_col);
+		}
+		
+		return null;
+	}
 
 	private Token processaNum() throws IOException {
 		char c = getNextChar();
-
-		/**
-		 * NUM_FLOAT: 3.10E+10|4.8 NUM_INT: 3E+10|123|48
-		 */
 
 		try {
 			while (Character.isDigit(c)) {
 				c = getNextChar();
 			}
 
-			if (c == '.') {
-				c = getNextChar();
-
-				if (!Character.isDigit(c)) {
-					resetLastChar();
-					ErrorHandler.getInstance().addCompilerError(ErrorType.LEXICO, lexema.toString(),
-							"Número Float inválido. Esperado finalizar o número", tk_lin, tk_col);
-					return null;
-				}
-
-				do {
-					c = getNextChar();
-				} while (Character.isDigit(c));
-
-				if (c != 'E') {
-					resetLastChar();
-					return new Token(TokenType.NUM_FLOAT, lexema.toString(), tk_lin, tk_col);
-				}
-
-				c = getNextChar();
-
-				if (c != '+') {
-					resetLastChar();
-					ErrorHandler.getInstance().addCompilerError(ErrorType.LEXICO, lexema.toString(),
-							"Número Float inválido. `+` é esperado após E", tk_lin, tk_col);
-					return null;
-				}
-
-				c = getNextChar();
-
-				do {
-					c = getNextChar();
-				} while (Character.isDigit(c));
-
-				resetLastChar();
-
-				return new Token(TokenType.NUM_FLOAT, lexema.toString(), tk_lin, tk_col);
-			}
-
+			
 			if (c != 'E') {
 				resetLastChar();
-				return new Token(TokenType.NUM_INT, lexema.toString(), tk_lin, tk_col);
+				return new Token(TokenType.INTEGER, lexema.toString(), tk_lin, tk_col);
 			}
 
 			c = getNextChar();
@@ -306,7 +293,7 @@ public class Lexico {
 
 			resetLastChar();
 
-			return new Token(TokenType.NUM_INT, lexema.toString(), tk_lin, tk_col);
+			return new Token(TokenType.INTEGER, lexema.toString(), tk_lin, tk_col);
 		} catch (EOFException eofError) {
 			lexema.append(" ");
 		}
@@ -323,7 +310,7 @@ public class Lexico {
 			}
 			resetLastChar();
 		} catch (EOFException e) {
-			// Quebra de padrão provocado pelo fim do arquivo
+			// Quebra de padr�o provocado pelo fim do arquivo
 			// Ainda retornaremos o token
 			fileLoader.resetLastChar();
 		}

@@ -20,11 +20,7 @@ public class TabSimbolos {
 		tab.put("and", new Token(TokenType.OPLOG, "and"));
 		tab.put("or", new Token(TokenType.OPLOG, "or"));
 		tab.put("bool", new Token(TokenType.TYPE, "bool"));
-		tab.put("text", new Token(TokenType.TYPE, "text"));
-		tab.put("int", new Token(TokenType.TYPE, "int"));
-		tab.put("float", new Token(TokenType.TYPE, "float"));
 		tab.put("PROGRAM", new Token(TokenType.PROGRAM, "PROGRAM"));
-		tab.put("end_prog", new Token(TokenType.END_PROG, "end_prog"));
 		tab.put("BEGIN", new Token(TokenType.BEGIN, "BEGIN"));
 		tab.put("END", new Token(TokenType.END, "END"));
 		tab.put("if", new Token(TokenType.IF, "if"));
@@ -32,13 +28,13 @@ public class TabSimbolos {
 		tab.put("else", new Token(TokenType.ELSE, "else"));
 		tab.put("for", new Token(TokenType.FOR, "for"));
 		tab.put("WHILE", new Token(TokenType.WHILE, "WHILE"));
-		tab.put("declare", new Token(TokenType.DECLARE, "declare"));
 		tab.put("to", new Token(TokenType.TO, "to"));
 		tab.put("INTEGER", new Token(TokenType.INTEGER, "INTEGER"));
 		tab.put("DO", new Token(TokenType.DO, "DO"));
 		tab.put("READ", new Token(TokenType.READ, "READ"));
 		tab.put("VAR", new Token(TokenType.VAR, "VAR"));
 		tab.put("WRITE", new Token(TokenType.WRITE, "WRITE"));
+		tab.put("STRING", new Token(TokenType.STRING, "STRING"));
 		
 	}
 	
@@ -74,8 +70,7 @@ public class TabSimbolos {
 
 	private void cabecalhoTabela()
 	{
-		System.out.println("\n---------------------------------------");
-		System.out.printf("|%27s %10s","Tabela de Simbolos","|");
+		System.out.printf("\n\t Tabela de Caracteres");
 		System.out.println("\n---------------------------------------");
 		System.out.println("|      Token      ||      Lexema      |");
 		System.out.println("---------------------------------------");

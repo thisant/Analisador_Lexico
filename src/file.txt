@@ -1,23 +1,13 @@
-program file;	
-	begin
-		declare nome text;
-		declare idade int;
-		declare salario float;
-		declare status text;
+PROGRAM file;	
+	BEGIN
+		VAR nome "Guilherme";
+		VAR idade INTEGER;
+
+		nome := "thiago";
+		idade := 21;
+	
 		
-		@
-		
-		nome <- "thiago";
-		idade <- 21;
-		salario <- 3000.00;
-		
-		if(idade $gt 18) then
-			begin				
-				status <- "Maior de idade";
-			end
-		else
-			begin
-				status <- "Menor de idade;
-			end
-	end
-end_prog;  {# bla
+		WRITE ("Seja bem vinde", nome);
+	END;
+
+END.

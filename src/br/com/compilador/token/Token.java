@@ -21,19 +21,12 @@ public class Token {
 		this.coluna = coluna;
 	}
 	
-	/**
-	* Método responsável por imprimir os dados do token
-	*/
+	
 	public void print() {
 		String formatTokens = "(%3s,%3s)| %-10s || %-21s |\n";
-		
 		System.out.printf(formatTokens,this.coluna,this.linha,tokenType.toString(), this.lexema);	
-
 	}
 	
-	/**
-	* getters e setters
-	*/
 	public TokenType getTokenType() {
 		return this.tokenType;
 	}

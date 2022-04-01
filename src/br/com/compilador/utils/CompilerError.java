@@ -23,14 +23,27 @@ public class CompilerError
 		return "Error [type=" + errorType + ", lex=" + lexema + ", (" + linha + ", " + coluna + ")]: " + msg;
 	}
 
-	public ErrorType getErrorType() 				{ return errorType; }
-	public void setErrorType(ErrorType errorType) 	{ this.errorType = errorType; }
+	public ErrorType getErrorType() { 
+		return errorType; 
+	}
+	
+	public void setErrorType(ErrorType errorType) 	{
+		this.errorType = errorType; 
+	}
 
-	public String getMsg() 						    { return msg; }
+	public String getMsg() 	{ 
+		return msg; 
+	}
 
-	public String getLexema() 						{ return lexema; }
+	public String getLexema() { 
+		return lexema; 
+	}
 
-	public long getLinha() 							{ return linha; }
+	public long getLinha() 	{ 
+		return linha; 
+	}
 
-	public long getColuna() 						{ return coluna; }
+	public long getColuna(){ 
+		return coluna; 
+	}
 }

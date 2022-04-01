@@ -9,9 +9,6 @@ public class ErrorHandler
 	private static ErrorHandler instance = new ErrorHandler();
 	private List<CompilerError> erros = new ArrayList<CompilerError>();
 
-	/**
-	 * Método responsável por registrar erros
-	 */
 	public void addCompilerError(CompilerError error)
 	{
 		erros.add(error);
@@ -32,9 +29,6 @@ public class ErrorHandler
 		}
 	}
 
-	/**
-	 * Método responsável por imprimir o cabeçalho de erros
-	 */
 	private void cabecalhoRelatorioLexico()
 	{
 		System.out.println("\n---------------------------------------");
@@ -42,9 +36,7 @@ public class ErrorHandler
 		System.out.println("\n---------------------------------------");
 	}
 
-	/**
-	 * Método responsável por retornar a instância única da classe
-	 */
+
 	public static ErrorHandler getInstance()
 	{
 		return instance;

@@ -1,18 +1,14 @@
 package br.com.compilador;
 
 import java.io.IOException;
-
 import br.com.compilador.analisadores.Sintatico;
-
-import br.com.compilador.analisadores.Lexico;
 
 public class Compilador {
 
 	public static void main(String[] args) {
 
-		//String filename = "src/file.txt";
-		
-		String filename = "src/GramME.txt";
+		//String filename = "src/GramME.txt";
+		String filename = "src/file.txt";
 		Sintatico sintatico;
 		
 		try {
