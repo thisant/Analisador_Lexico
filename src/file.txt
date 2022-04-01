@@ -5,6 +5,8 @@ PROGRAM file;
 
 		nome := "thiago";
 		idade := 21;
+		
+		#Comentario#
 	
 		
 		WRITE ("Seja bem vinde", nome);

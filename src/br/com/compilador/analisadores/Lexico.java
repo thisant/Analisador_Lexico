@@ -75,7 +75,7 @@ public class Lexico {
 				case ')':
 					token = new Token(TokenType.FPAR, lexema.toString(), tk_lin, tk_col);
 					break;
-				case '{':
+				case '#':
 					processaComentario();
 					break;
 				case '"':
@@ -132,18 +132,12 @@ public class Lexico {
 	private void processaComentario() throws IOException {
 		try {
 			char c = getNextChar();
-			if (c != '#') {
-				// Registra erro, reseta lexema e reinicia
-				ErrorHandler.getInstance().addCompilerError(ErrorType.LEXICO, lexema.toString(),
-						"Comentário mal formatado", tk_lin, tk_col);
-			}
-
+			
 			do {
-				do {
-					c = getNextChar();
-				} while (c != '#');
 				c = getNextChar();
-			} while (c != '}');
+			} while (c != '#');
+			c = getNextChar();
+			
 		} catch (EOFException e) {
 			// Gera Erro, pois se um FIM ocorre, significa que o comentário não foi fechado
 			ErrorHandler.getInstance().addCompilerError(ErrorType.LEXICO, lexema.toString(),

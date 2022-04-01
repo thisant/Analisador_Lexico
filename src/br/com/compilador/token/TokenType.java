@@ -31,7 +31,8 @@ public enum TokenType {
 	OPREL(31),		// <, <=, >, =>, ==, <>
 	VIG(32),		// ,
 	PONTO(33),		//
-	OPNEG(34);		// ~	
+	OPNEG(34),		// ~
+	COM(35);		// # aqui #
 	
 	private int codToken;
 

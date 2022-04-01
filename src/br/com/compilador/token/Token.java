@@ -1,10 +1,10 @@
 package br.com.compilador.token;
 
 public class Token {
-	private TokenType tokenType; // tipo de token
-	private String lexema;       // cadeia de caracteres do token
-	private long linha;          // linha em que o token ocorre
-	private long coluna;         // coluna do 1o caractere do token
+	private TokenType tokenType; 
+	private String lexema;       
+	private long linha;          
+	private long coluna;         
 
 	public Token(TokenType tokenType) {
 		this(tokenType, "");
