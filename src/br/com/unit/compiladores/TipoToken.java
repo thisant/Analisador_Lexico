@@ -1,38 +1,38 @@
 package br.com.unit.compiladores;
 
 public enum TipoToken {
-	FIM(0), 		// Fim do arquivo
-	STRING(3), 	    // "Thiago", "Santana"
-	ID(4), 			// val, _salario, i__
-	RELOP(5), 		// $df, $gt, $le
-	OPAD(6), 		// +, -
-	OPMULT(7), 		// *, /
-	ATRIB(8), 		// :=
-	PVIG(9), 		// ;
-	ABPAR(10), 		// (
-	FPAR(11), 		// )
-	BOOLEAN(12), 	// true, false
-	OPLOG(13), 		// and, not, or
-	TYPE(14), 		// bool, text, int
-	PROGRAM(15), 	// program
-	BEGIN(17), 		// begin
-	END(18), 		// end
-	IF(19), 		// if
-	THEN(20), 		// then
-	ELSE(21), 		// else
-	FOR(22), 		// for
-	WHILE(23), 		// while
-	TO(25), 		// to
-	INTEGER(26),	// INTEGER
-	DO(27),			// Do 
-	READ(28),		// READ 
-	VAR(29),		// VAR
-	WRITE(30),		// WRITE
-	OPREL(31),		// <, <=, >, =>, ==, <>
-	VIG(32),		// ,
-	PONTO(33),		//
-	OPNEG(34),		// ~
-	COM(35);		// # comentario #
+	FIM(0), 		
+	STRING(3), 	    
+	ID(4), 			
+	RELOP(5), 		
+	OPAD(6), 		
+	OPMULT(7), 		
+	ATRIB(8), 		
+	PVIG(9), 		
+	ABPAR(10), 		
+	FPAR(11), 		
+	BOOLEAN(12), 	
+	OPLOG(13), 		
+	TYPE(14), 		
+	PROGRAM(15), 	
+	BEGIN(17), 		
+	END(18), 		
+	IF(19), 		
+	THEN(20), 		
+	ELSE(21), 		
+	FOR(22), 		
+	WHILE(23), 		
+	TO(25), 		
+	INTEGER(26),	
+	DO(27),			
+	READ(28),		
+	VAR(29),		
+	WRITE(30),		
+	OPREL(31),		
+	VIG(32),		
+	PONTO(33),		
+	OPNEG(34),		
+	COM(35);		
 	
 	private int codigoToken;
 
@@ -50,6 +50,6 @@ public enum TipoToken {
 			if(codigoToken == tipoToken.getCodigoToken()) { return tipoToken; }
 		}
 		
-		throw new IllegalArgumentException("codigo invalido " + codigoToken);
+		throw new IllegalArgumentException("Falha no código: " + codigoToken);
 	}
 }

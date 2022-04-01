@@ -8,19 +8,19 @@ public class Erro
 	private long linha;
 	private long coluna;
 	
-	public Erro(TipoErro tipoErro, String lexema, String msg, long linha, long coluna)
+	public Erro(TipoErro tipoErro, String lexema, String mensagem, long linha, long coluna)
 	{
 		this.tipoErro = tipoErro;
 		this.lexema = lexema;
 		this.linha = linha;
 		this.coluna = coluna;
-		this.mensagem = msg;
+		this.mensagem = mensagem;
 	}
 
 	@Override
 	public String toString()
 	{
-		return "Erro [tipo=" + tipoErro + ", lexema=" + lexema + ", (" + linha + ", " + coluna + ")]: " + mensagem;
+		return mensagem + " do tipo " + tipoErro + ", no lexema= " + lexema + ", na posição: (" + linha + ", " + coluna + ")";
 	}
 
 	public TipoErro getTipoErro() { 

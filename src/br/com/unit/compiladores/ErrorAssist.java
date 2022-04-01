@@ -14,8 +14,8 @@ public class ErrorAssist
 		erros.add(error);
 	}
 	
-	public void erroCompilador(TipoErro errorType, String lexema, String mensagem, long linha, long coluna) {
-		Erro e =  new Erro(errorType, lexema, mensagem, linha, coluna);
+	public void erroCompilador(TipoErro tipoErro, String lexema, String mensagem, long linha, long coluna) {
+		Erro e =  new Erro(tipoErro, lexema, mensagem, linha, coluna);
 		erroCompilador(e);
 	}
 
@@ -31,7 +31,7 @@ public class ErrorAssist
 
 	private void tituloTabelaLexico()
 	{
-		System.out.printf("\nErros");
+		System.out.printf("\nErros: ");
 		System.out.printf("\n");
 	}
 

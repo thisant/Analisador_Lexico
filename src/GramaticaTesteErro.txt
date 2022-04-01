@@ -1,0 +1,13 @@
+PROGRAM calculo;
+
+VAR n1, fat2;
+
+BEGIN
+
+    n1 := 13;  
+    n2 : 20;
+
+    var soma := n1 + n2;
+    WRITE ("A soma de', n1, " com ", n2 "eh " soma);
+
+END. 

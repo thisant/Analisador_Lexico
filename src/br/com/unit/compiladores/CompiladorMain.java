@@ -6,15 +6,16 @@ public class CompiladorMain {
 
 	public static void main(String[] args) {
         
+		//String arquivo = "src/GramaticaTesteErro.txt";
 		String arquivo = "src/GramaticaTeste.txt";
-		//String arquivo = "src/GramaticaTeste.txt";
+		
 		AnalisadorSintatico analisadorSintatico;
 		
 		try {
 			analisadorSintatico = new AnalisadorSintatico(arquivo);
-			analisadorSintatico.processar();
+			analisadorSintatico.compilando();
 		} catch (IOException e) {
-			System.out.println("Arquivo não encontrado!");
+			System.out.println("Falha ao encontrar o arquivo!");
 			System.out.println(e.getMessage());
 		}
 	}

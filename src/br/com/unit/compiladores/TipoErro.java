@@ -3,13 +3,12 @@ package br.com.unit.compiladores;
 public enum TipoErro {
     LEXICO(1),
     SINTATICO(2),
-    SEMANTICO(3),
-    PROCESSAMENTO(4);
+    COMPILACAO(3);
 
     private int codigo;
 
-    private TipoErro(int codErro) {
-        this.codigo = codErro;
+    private TipoErro(int codigoErro) {
+        this.codigo = codigoErro;
     }
 
     public int getCodigo(){
@@ -22,6 +21,6 @@ public enum TipoErro {
             if(codigoToken == tipoToken.getCodigo()) { return tipoToken; }
         }
 
-        throw new IllegalArgumentException("codigo invalido " + codigoToken);
+        throw new IllegalArgumentException("Falha no código: " + codigoToken);
     }
 }
