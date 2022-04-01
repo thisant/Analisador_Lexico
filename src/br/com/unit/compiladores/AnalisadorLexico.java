@@ -7,8 +7,9 @@ public class AnalisadorLexico {
 	private Executor carregarArquivo;
 	private StringBuilder lexema = null;
 	private char caracter;
-	private long tk_coluna;
-	private long tk_linha;
+	private long tokenLinha;
+	private long tokenColuna;
+
 
 	public AnalisadorLexico(String nomeArquivo) throws IOException {
 		carregarArquivo = new Executor(nomeArquivo);
@@ -18,55 +19,51 @@ public class AnalisadorLexico {
 		Token token = null;
 
 		try {
-			// Tratando entrada
 			while (token == null) {
-				// remove espaços em branco
 				do {
 					caracter = carregarArquivo.getProximoCaractere();
 				} while (Character.isWhitespace(caracter));
 
 				lexema = new StringBuilder();
-				// Posição inicial do possível token
-				tk_linha = carregarArquivo.getLinha();
-				tk_coluna = carregarArquivo.getColuna();
+				tokenLinha = carregarArquivo.getLinha();
+				tokenColuna = carregarArquivo.getColuna();
 
-				// Append do caracter do lexema
 				lexema.append(caracter);
 
 				switch (caracter) {
 				case '+':
-					token = new Token(TipoToken.OPAD, lexema.toString(), tk_linha, tk_coluna);
+					token = new Token(TipoToken.OPAD, lexema.toString(), tokenLinha, tokenColuna);
 					break;
 				case '-':
-					token = new Token(TipoToken.OPAD, lexema.toString(), tk_linha, tk_coluna);
+					token = new Token(TipoToken.OPAD, lexema.toString(), tokenLinha, tokenColuna);
 					break;
 				case '*':
-					token = new Token(TipoToken.OPMULT, lexema.toString(), tk_linha, tk_coluna);
+					token = new Token(TipoToken.OPMULT, lexema.toString(), tokenLinha, tokenColuna);
 					break;
 				case '/':
-					token = new Token(TipoToken.OPMULT, lexema.toString(), tk_linha, tk_coluna);
+					token = new Token(TipoToken.OPMULT, lexema.toString(), tokenLinha, tokenColuna);
 					break;
 				case ';':
-					token = new Token(TipoToken.PVIG, lexema.toString(), tk_linha, tk_coluna);
+					token = new Token(TipoToken.PVIG, lexema.toString(), tokenLinha, tokenColuna);
 					break;
 				case '<':
-					token = new Token(TipoToken.OPREL, lexema.toString(), tk_linha, tk_coluna);
+					token = new Token(TipoToken.OPREL, lexema.toString(), tokenLinha, tokenColuna);
 					simboloMenorQue();
 					break;
 				case '>':
-					token = new Token(TipoToken.OPREL, lexema.toString(), tk_linha, tk_coluna);
+					token = new Token(TipoToken.OPREL, lexema.toString(), tokenLinha, tokenColuna);
 					break;
 				case '=':
 					simboloIgual();
 					break;
 				case ',':
-					token = new Token(TipoToken.VIG, lexema.toString(), tk_linha, tk_coluna);
+					token = new Token(TipoToken.VIG, lexema.toString(), tokenLinha, tokenColuna);
 					break;
 				case '(':
-					token = new Token(TipoToken.ABPAR, lexema.toString(), tk_linha, tk_coluna);
+					token = new Token(TipoToken.ABPAR, lexema.toString(), tokenLinha, tokenColuna);
 					break;
 				case ')':
-					token = new Token(TipoToken.FPAR, lexema.toString(), tk_linha, tk_coluna);
+					token = new Token(TipoToken.FPAR, lexema.toString(), tokenLinha, tokenColuna);
 					break;
 				case '#':
 					comentario();
@@ -81,7 +78,7 @@ public class AnalisadorLexico {
 					token = assign();
 					break;
 				case '.':
-					token = new Token(TipoToken.PONTO, lexema.toString(), tk_linha, tk_coluna);
+					token = new Token(TipoToken.PONTO, lexema.toString(), tokenLinha, tokenColuna);
 					break;
 				default:
 					if (Character.isLetter(caracter) || caracter == '_') {
@@ -93,19 +90,18 @@ public class AnalisadorLexico {
 						break;
 					}
 
-					// Registra erro 
 					ErrorAssist.getInstancia().erroCompilador(TipoErro.LEXICO, lexema.toString(),
-							"Caracter inválido", tk_linha, tk_coluna);
+							"Caracter inválido", tokenLinha, tokenColuna);
 				}
 			}
 
 		} catch (EOFException eof) {
 			token = new Token(TipoToken.FIM);
 		} catch (IOException io) {
-			// Registra erro (Processamento)
-			ErrorAssist.getInstancia().erroCompilador(TipoErro.PROCESSAMENTO, "", "Erro ao acessar o arquivo",
-					tk_linha, tk_coluna);
-			token = new Token(TipoToken.FIM, "Erro de processamento");
+			// Registrando erro (ao compilar)
+			ErrorAssist.getInstancia().erroCompilador(TipoErro.COMPILACAO, "", "Falha ao acessar o arquivo",
+					tokenLinha, tokenColuna);
+			token = new Token(TipoToken.FIM, "Erro de compilação");
 		}
 		return token;
 	}
@@ -132,9 +128,8 @@ public class AnalisadorLexico {
 			c = proximoCaractere();
 		
 		} catch (EOFException e) {
-			// Gera Erro, pois se um FIM ocorre, significa que o comentário não foi fechado
 			ErrorAssist.getInstancia().erroCompilador(TipoErro.LEXICO, lexema.toString(),
-					"Comentário não finalizado.", tk_linha, tk_coluna);
+					"Erro no comentário não finalizado.", tokenLinha, tokenColuna);
 			carregarArquivo.ultimoCaractereReiniciar();
 		}
 	}
@@ -146,19 +141,17 @@ public class AnalisadorLexico {
 				c = proximoCaractere();
 			}
 		} catch (EOFException eof) {
-			// adiciona espaço para tratamento
 			lexema.append(" ");
 		}
 
 		if (c != '"') {
 			ultimoCaractereReiniciar();
-			// Registra Erro
-			ErrorAssist.getInstancia().erroCompilador(TipoErro.LEXICO, lexema.toString(), "Literal não finalizado",
-					tk_linha, tk_coluna);
+			ErrorAssist.getInstancia().erroCompilador(TipoErro.LEXICO, lexema.toString(), "Erro no Literal",
+					tokenLinha, tokenColuna);
 			return null;
 		}
 
-		return new Token(TipoToken.STRING, lexema.toString(), tk_linha, tk_coluna);
+		return new Token(TipoToken.STRING, lexema.toString(), tokenLinha, tokenColuna);
 	}
 
 	private Token relop() throws IOException {
@@ -171,7 +164,7 @@ public class AnalisadorLexico {
 
 				if (c != 't' && c != 'e') {
 					ultimoCaractereReiniciar();
-					return new Token(TipoToken.RELOP, lexema.toString(), tk_linha, tk_coluna);
+					return new Token(TipoToken.RELOP, lexema.toString(), tokenLinha, tokenColuna);
 				}
 				break;
 
@@ -180,7 +173,7 @@ public class AnalisadorLexico {
 
 				if (c != 't' && c != 'e') {
 					ultimoCaractereReiniciar();
-					return new Token(TipoToken.RELOP, lexema.toString(), tk_linha, tk_coluna);
+					return new Token(TipoToken.RELOP, lexema.toString(), tokenLinha, tokenColuna);
 				}
 				break;
 
@@ -189,7 +182,7 @@ public class AnalisadorLexico {
 
 				if (c != 'q') {
 					ultimoCaractereReiniciar();
-					return new Token(TipoToken.RELOP, lexema.toString(), tk_linha, tk_coluna);
+					return new Token(TipoToken.RELOP, lexema.toString(), tokenLinha, tokenColuna);
 				}
 				break;
 
@@ -198,7 +191,7 @@ public class AnalisadorLexico {
 
 				if (c != 'f') {
 					ultimoCaractereReiniciar();
-					return new Token(TipoToken.RELOP, lexema.toString(), tk_linha, tk_coluna);
+					return new Token(TipoToken.RELOP, lexema.toString(), tokenLinha, tokenColuna);
 				}
 				break;
 
@@ -206,18 +199,18 @@ public class AnalisadorLexico {
 
 				if (Character.isWhitespace(c)) {
 					ErrorAssist.getInstancia().erroCompilador(TipoErro.LEXICO, lexema.toString(),
-							"Relop Inválido. Valores esperados: $lt|$gt|$ge|$le|$eq|$df", tk_linha, tk_coluna);
+							"O Relop está incorreto. Valores válidos: $lt|$gt|$ge|$le|$eq|$df", tokenLinha, tokenColuna);
 				}
 
 				ultimoCaractereReiniciar();
-				return new Token(TipoToken.RELOP, lexema.toString(), tk_linha, tk_coluna);
+				return new Token(TipoToken.RELOP, lexema.toString(), tokenLinha, tokenColuna);
 			}
 		} catch (EOFException eofError) {
 			carregarArquivo.ultimoCaractereReiniciar();
 			lexema.append(" ");
 		}
 
-		return new Token(TipoToken.RELOP, lexema.toString(), tk_linha, tk_coluna);
+		return new Token(TipoToken.RELOP, lexema.toString(), tokenLinha, tokenColuna);
 	}
 
 	private Token assign() throws IOException {
@@ -225,27 +218,27 @@ public class AnalisadorLexico {
 		if (c != '=') {
 			// Registra Erro
 			ErrorAssist.getInstancia().erroCompilador(TipoErro.LEXICO, lexema.toString(), "Operador inválido",
-					tk_linha, tk_coluna);
+					tokenLinha, tokenColuna);
 			return null;
 		}
-		return new Token(TipoToken.ATRIB, lexema.toString(), tk_linha, tk_coluna);
+		return new Token(TipoToken.ATRIB, lexema.toString(), tokenLinha, tokenColuna);
 	}
 	
 	private Token simboloIgual() throws IOException {
 		char c = proximoCaractere();
 		if (c != '=') {
-			ErrorAssist.getInstancia().erroCompilador(TipoErro.LEXICO, lexema.toString(), "Operador inválido", tk_linha, tk_coluna);
+			ErrorAssist.getInstancia().erroCompilador(TipoErro.LEXICO, lexema.toString(), "Operador inválido", tokenLinha, tokenColuna);
 			return null;
 		}
 		
-		return new Token(TipoToken.ATRIB, lexema.toString(), tk_linha, tk_coluna);
+		return new Token(TipoToken.ATRIB, lexema.toString(), tokenLinha, tokenColuna);
 	}
 	
 	private Token simboloMenorQue() throws IOException {
 		char c = proximoCaractere();
 		
 		if (c == '=') {
-			return new Token(TipoToken.ATRIB, lexema.toString(), tk_linha, tk_coluna);
+			return new Token(TipoToken.ATRIB, lexema.toString(), tokenLinha, tokenColuna);
 		}
 		
 		return null;
@@ -262,7 +255,7 @@ public class AnalisadorLexico {
 			
 			if (c != 'E') {
 				ultimoCaractereReiniciar();
-				return new Token(TipoToken.INTEGER, lexema.toString(), tk_linha, tk_coluna);
+				return new Token(TipoToken.INTEGER, lexema.toString(), tokenLinha, tokenColuna);
 			}
 
 			c = proximoCaractere();
@@ -270,7 +263,7 @@ public class AnalisadorLexico {
 			if (c != '+') {
 				ultimoCaractereReiniciar();
 				ErrorAssist.getInstancia().erroCompilador(TipoErro.LEXICO, lexema.toString(),
-						"Número Inteiro inválido. `+` É esperado após `" + lexema.toString() + '`', tk_linha, tk_coluna);
+						"Número inteiro inválido. `+` é válido após:  `" + lexema.toString() + '`', tokenLinha, tokenColuna);
 				return null;
 			}
 
@@ -280,7 +273,7 @@ public class AnalisadorLexico {
 
 			ultimoCaractereReiniciar();
 
-			return new Token(TipoToken.INTEGER, lexema.toString(), tk_linha, tk_coluna);
+			return new Token(TipoToken.INTEGER, lexema.toString(), tokenLinha, tokenColuna);
 		} catch (EOFException eofError) {
 			lexema.append(" ");
 		}
@@ -297,12 +290,10 @@ public class AnalisadorLexico {
 			}
 			ultimoCaractereReiniciar();
 		} catch (EOFException e) {
-			// Quebra de padrão provocado pelo fim do arquivo
-			// Ainda retornaremos o token
 			carregarArquivo.ultimoCaractereReiniciar();
 		}
 
-		token = Simbologia.getInstancia().addToken(lexema.toString(), tk_linha, tk_coluna);
+		token = Simbologia.getInstancia().adicionarToken(lexema.toString(), tokenLinha, tokenColuna);
 		return token;
 	}
 }

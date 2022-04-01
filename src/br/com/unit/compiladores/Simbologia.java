@@ -39,7 +39,7 @@ public class Simbologia {
 		return instancia;
 	}
 	
-	public Token addToken(String lexema, long linha, long coluna) {
+	public Token adicionarToken(String lexema, long linha, long coluna) {
 		Token token = null;
 
 		if (tabela.containsKey(lexema)) {
@@ -54,7 +54,7 @@ public class Simbologia {
 		return token;
 	}
 	
-	public void printRelatorio()
+	public void printTabela()
 	{
 		tituloTabela();
 		String tabelaForma = "| %-15s | %-16s |\n";
@@ -67,7 +67,7 @@ public class Simbologia {
 
 	private void tituloTabela()
 	{
-		System.out.printf("\n\t       Simbólos\n\n");
+		System.out.printf("\n\t       Símbolos\n");
 		System.out.println("|      Token      |       Lexema     |");
 		System.out.println("--------------------------------------");
 	}

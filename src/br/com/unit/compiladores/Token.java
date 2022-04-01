@@ -1,10 +1,10 @@
 package br.com.unit.compiladores;
 
 public class Token {
-	private TipoToken tipoToken; // tipo de token
-	private String lexema;       // cadeia de caracteres do token
-	private long linha;          // linha em que o token ocorre
-	private long coluna;         // coluna do primeiro caractere do token
+	private TipoToken tipoToken; 
+	private String lexema;       
+	private long linha;         
+	private long coluna;   
 
 	public Token(TipoToken tipoToken) {
 		this(tipoToken, "");
@@ -23,7 +23,7 @@ public class Token {
 	
 	
 	public void print() {
-		String tokenFormato = "(%3s,%3s)| %-10s || %-21s |\n";
+		String tokenFormato = "[%3s,%3s]| %-10s | %-21s |\n";
 		System.out.printf(tokenFormato,this.coluna,this.linha,tipoToken.toString(), this.lexema);	
 	}
 	

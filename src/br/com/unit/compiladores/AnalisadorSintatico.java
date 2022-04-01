@@ -12,11 +12,11 @@ public class AnalisadorSintatico
 		analisadorLexico = new AnalisadorLexico(nomeArquivo);
 	}
 
-	public void processar()
+	public void compilando()
 	{
-		System.out.println("\t       Análise Sintática\n");
+		System.out.println("\t     Análise Sintática");
 
-		System.out.println("( X , Y )|   Token    |          Lexema       |");
+		System.out.println("[ X , Y ]|   Token    |          Lexema       |");
 		System.out.println("-----------------------------------------------"); 
 		
 		do  { 
@@ -24,9 +24,9 @@ public class AnalisadorSintatico
 			token.print(); 
 		} while (token.getTipoToken() != TipoToken.FIM);
 		
-		System.out.println("------------------------------------------------");
+		System.out.println("-----------------------------------------------");
 
-		Simbologia.getInstancia().printRelatorio(); 
+		Simbologia.getInstancia().printTabela(); 
 		ErrorAssist.getInstancia().gerarTabela();
 	}
 }
