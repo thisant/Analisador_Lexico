@@ -1,8 +1,8 @@
-package br.com.compilador.token;
+package br.com.unit.compiladores;
 
-public enum TokenType {
+public enum TipoToken {
 	FIM(0), 		// Fim do arquivo
-	STRING(3), 	// "Thiago", "Santana"
+	STRING(3), 	    // "Thiago", "Santana"
 	ID(4), 			// val, _salario, i__
 	RELOP(5), 		// $df, $gt, $le
 	OPAD(6), 		// +, -
@@ -32,24 +32,24 @@ public enum TokenType {
 	VIG(32),		// ,
 	PONTO(33),		//
 	OPNEG(34),		// ~
-	COM(35);		// # aqui #
+	COM(35);		// # comentario #
 	
-	private int codToken;
+	private int codigoToken;
 
-	private TokenType(int codToken){
-		this.codToken = codToken;
+	private TipoToken(int codigoToken){
+		this.codigoToken = codigoToken;
 	}
 
-	public int getCodToken(){
-		return codToken;
+	public int getCodigoToken(){
+		return codigoToken;
 	}
 	
-	public static TokenType toEnum(int codToken){
+	public static TipoToken tipoEnum(int codigoToken){
 		
-		for (TokenType tokenType : TokenType.values()){
-			if(codToken == tokenType.getCodToken()) { return tokenType; }
+		for (TipoToken tipoToken : TipoToken.values()){
+			if(codigoToken == tipoToken.getCodigoToken()) { return tipoToken; }
 		}
 		
-		throw new IllegalArgumentException("codigo invalido "+codToken);
+		throw new IllegalArgumentException("codigo invalido " + codigoToken);
 	}
 }

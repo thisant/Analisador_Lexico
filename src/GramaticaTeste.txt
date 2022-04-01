@@ -1,0 +1,13 @@
+PROGRAM file;	
+	BEGIN
+		VAR nome "Guilherme";
+		VAR idade INTEGER;
+
+		nome := "Thiago";
+		idade := 25;
+	
+		#comentario#
+		WRITE ("Seja bem-vindo", nome);
+	END;
+
+END.
