@@ -1,0 +1,24 @@
+Prog --> PROGRAM IDENTIFIER PVIG Decls CmdComp PONTO
+Decls --> ε | VAR ListDecl
+ListDecl --> DeclTip | DeclTip ListDecl
+DeclTipo --> ListId DPONTOS Tip PVIG
+ListId --> IDENTIFIER | IDENTIFIER VIG ListId
+Tip --> INTEGER | BOOLEAN | STRING
+
+CmdComp --> BEGIN ListCmd END
+ListCmd --> Cmd | Cmd PVIG ListCmd
+Cmd --> CmdIf | CmdWhile | CmdRead | CmdWrite | CmdAtrib | CmdComp
+
+CmdIf --> IF Expr THEN IF Expr THEN Cmd ELSE Cmd
+
+CmdWhile --> WHILE Expr DO Cmd
+
+CmdRead --> READ ( ListID )
+CmdWrite --> WRITE ( ListW )
+ListW --> ElemW | ElemW VIG ListW
+ElemW --> Expr | CADEIA
+
+CmdAtrib --> IDENTIFIER := Expr
+
+Expr --> Expr OPREL Expr | Expr OPAD Expr | Expr OPMULT Expr
+Expr --> IDENTIFIER | CTE | ABPAR EXPR FPAR | TRUE | FALSE | OPNEG Expr
